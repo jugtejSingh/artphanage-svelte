@@ -51,8 +51,4 @@
 		display: flex;
 		flex-direction: column;
 	}
-	.Cart {
-		width: 35rem;
-		height: 16rem;
-	}
 </style>
