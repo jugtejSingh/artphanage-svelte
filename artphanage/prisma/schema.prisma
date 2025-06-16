@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model painting {
+  id             Int           @id @default(autoincrement())
+  artName        String        @unique
+  description    String
+  imageName      String[]
+  price          Int
+  currency       Currency
+  priceId        String
+  slug           String        @unique
+  sold           String
+  frame          String
+  size           String
+  orphanage      String
+  childName      String
+  location       String
+  order          order?        @relation(fields: [orderId], references: [id])
+  organization   organization? @relation(fields: [organizationId], references: [id])
+  orderId        Int?
+  organizationId Int?
+}
+
+model organization {
+  id       Int        @id @default(autoincrement())
+  email    String     @unique
+  password String
+  role     String
+  name     String
+  location String
+  painting painting[]
+}
+
+model order {
+  id                  Int        @id @default(autoincrement())
+  painting            painting[]
+  email               String     @unique
+  name                String
+  phoneNumber         String
+  address             String
+  city                String
+  state               String
+  country             String
+  pincode             String
+  clientTransactionId String
+}
+
+enum Currency {
+  USD
+  GBP
+  INR
+  EUR
+}
