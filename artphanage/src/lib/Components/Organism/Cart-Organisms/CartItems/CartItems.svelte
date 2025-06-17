@@ -10,14 +10,13 @@
 		console.log(cart);
 		localStorage.setItem('cart', JSON.stringify(cart));
 	}
-	console.log(cart[0].imageName[0])
 
 </script>
 	<h2 class="Cart__heading">Order Summary</h2>
 	<div class="Cart__item">
 		{#each Object.values(cart) as item}
 			<div class="Cart__singleItem">
-				<img src={item.imageName[0]} alt="" class="Cart__image" />
+				<img src={item?.imageName[0]} alt="" class="Cart__image" />
 				<div class="Cart__nameAndInfo">
 					<h3 class="Cart__singleItemName">{item.artName}</h3>
 					<div class="Cart__metadata">

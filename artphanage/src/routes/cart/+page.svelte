@@ -5,19 +5,23 @@
 	import EmptyCart from '$lib/Components/Organism/Cart-Organisms/EmptyCart/EmptyCart.svelte';
 	import UserInformation from '$lib/Components/Organism/Cart-Organisms/UserInformation/UserInformation.svelte';
 	import Address from '$lib/Components/Organism/Cart-Organisms/Address/Address.svelte';
-	import SuperDebug, { superForm } from 'sveltekit-superforms';
+	import { superForm } from 'sveltekit-superforms';
 	import Button from '$lib/Components/Atoms/Button/Button.svelte';
-	import Price from '$lib/Components/Atoms/Price/Price.svelte';
 	import ShippingOption from '$lib/Components/Molecules/ShippingOption/ShippingOption.svelte';
-	let cart = localStorage.getItem('cart');
-	let parsedCart = JSON.parse(cart);
+	let cart = localStorage.getItem('cart') ;
+	let parsedCart
+	if (!cart){
+		parsedCart = []
+	} else{
+		 parsedCart = JSON.parse(cart);
+	}
+
 	let {data, form: formData} = $props();
 	let { form , errors, enhance } = superForm(data.form);
-	console.log(formData?.data.output)
 </script>
 
 <Navbar />
-{#if parsedCart.length >= 1}
+{#if parsedCart.length === 0}
 	<EmptyCart />
 {:else}
 	<form class="CartPage" method="POST" use:enhance>
