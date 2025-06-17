@@ -8,34 +8,35 @@
 	import SuperDebug, { superForm } from 'sveltekit-superforms';
 	import Button from '$lib/Components/Atoms/Button/Button.svelte';
 	import Price from '$lib/Components/Atoms/Price/Price.svelte';
+	import ShippingOption from '$lib/Components/Molecules/ShippingOption/ShippingOption.svelte';
 	let cart = localStorage.getItem('cart');
 	let parsedCart = JSON.parse(cart);
 	let {data, form: formData} = $props();
 	let { form , errors, enhance } = superForm(data.form);
+	console.log(formData?.data.output)
 </script>
 
 <Navbar />
-{#if parsedCart.length === 0}
+{#if parsedCart.length >= 1}
 	<EmptyCart />
 {:else}
 	<form class="CartPage" method="POST" use:enhance>
 		<div class="CartPage__left">
-<!--			<div class="Cart">-->
-<!--				<UserInformation form={form} errors={errors}/>-->
-<!--			</div>-->
-<!--			<div class="Cart">-->
-<!--				<Address form={form} errors={errors} />-->
-<!--			</div>-->
+			<div class="Cart">
+				<UserInformation form={form} errors={errors}/>
+			</div>
+			<div class="Cart">
+				<Address form={form} errors={errors} />
+			</div>
+			{#each formData?.data.output.rateReplyDetails as item, index}
+				<ShippingOption shippingDetail={item} key={index} />
+			{/each}
 			<Button variant="primary" type="submit" --width="50%" --height="3rem"><span>Checkout</span></Button>
 		</div>
 		<div>
 			<CartItems cart={parsedCart} />
 			<CartPrice cart={parsedCart} />
 		</div>
-		{#each formData?.data.output.rateReplyDetails as item}
-			{console.log(item)}
-			<Price price={item.ratedShipmentDetails[0].totalNetCharge} currency={item.ratedShipmentDetails[0].currency}/>
-			{/each}
 	</form>
 {/if}
 
@@ -50,5 +51,10 @@
 	.CartPage__left {
 		display: flex;
 		flex-direction: column;
+	}
+	.Cart {
+		width: 35rem;
+		height: 16rem;
+		margin-bottom: 3rem;
 	}
 </style>

@@ -1,5 +1,6 @@
 <script>
 	import Input from '$lib/Components/Molecules/Input/Input.svelte';
+	import { countryCodes } from '../../../../../utils/CountryCodes/countryCodes.js';
 	let { form, errors } = $props();
 </script>
 
@@ -12,7 +13,7 @@
 		required={true}
 		bind:value={$form.address}
 		error={$errors.address}
-		autocomplete="shipping address-level1"
+		autocomplete="address-level3"
 	/>
 	<Input
 		labelFor="address2"
@@ -31,7 +32,7 @@
 			required={true}
 			bind:value={$form.city}
 			error={$errors.city}
-			autocomplete="shipping address-level2"
+			autocomplete="shipping address-level1"
 		/>
 		<Input
 			labelFor="state"
@@ -43,14 +44,11 @@
 		/>
 	</div>
 	<div class="flex">
-		<Input
-			labelFor="country"
-			labelText="Country"
-			typeOfInput="text"
-			required={true}
-			bind:value={$form.country}
-			error={$errors.country}
-		/>
+		<select>
+			{#each countryCodes as item}
+				<option value={item.alpha2Code}>{item.englishShortName}</option>
+				{/each}
+		</select>
 		<Input
 			labelFor="postalCode"
 			labelText="Postal Code/Zip Code"
