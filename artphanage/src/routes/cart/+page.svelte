@@ -9,10 +9,8 @@
 	import Button from '$lib/Components/Atoms/Button/Button.svelte';
 	import ShippingOption from '$lib/Components/Molecules/ShippingOption/ShippingOption.svelte';
 	let cart = localStorage.getItem('cart') ;
-	let parsedCart
-	if (!cart){
-		parsedCart = []
-	} else{
+	let parsedCart = []
+	if (cart){
 		 parsedCart = JSON.parse(cart);
 	}
 
